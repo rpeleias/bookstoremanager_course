@@ -40,9 +40,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
-
-    private final BookMapper bookMapper = BookMapper.INSTANCE;
-
+    
     @Mock
     private BookRepository bookRepository;
 
@@ -75,7 +73,7 @@ public class BookServiceTest {
     void whenNewBookIsInformedThenItShouldBeCreated() {
         BookRequestDTO expectedBookToCreateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponse();
-        Book expectedCreatedBook = bookMapper.toModel(expectedCreatedBookDTO);
+        Book expectedCreatedBook = BookMapper.toModel(expectedCreatedBookDTO);
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findByNameAndIsbnAndUser(
@@ -95,7 +93,7 @@ public class BookServiceTest {
     void whenExistingBookIsInformedToCreateThenAnExceptionShouldBeThrown() {
         BookRequestDTO expectedBookToCreateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedCreatedBookDTO = bookResponseDTOBuilder.buildBookResponse();
-        Book expectedDuplicatedBook = bookMapper.toModel(expectedCreatedBookDTO);
+        Book expectedDuplicatedBook = BookMapper.toModel(expectedCreatedBookDTO);
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findByNameAndIsbnAndUser(
@@ -110,7 +108,7 @@ public class BookServiceTest {
     void whenExistingBookIsInformedThenABookShouldBeReturned() {
         BookRequestDTO expectedBookToFindDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedFoundBookDTO = bookResponseDTOBuilder.buildBookResponse();
-        Book expectedFoundBook = bookMapper.toModel(expectedFoundBookDTO);
+        Book expectedFoundBook = BookMapper.toModel(expectedFoundBookDTO);
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findByIdAndUser(
@@ -137,7 +135,7 @@ public class BookServiceTest {
     @Test
     void whenListBookIsCalledThenItShouldBeReturned() {
         BookResponseDTO expectedFoundBookDTO = bookResponseDTOBuilder.buildBookResponse();
-        Book expectedFoundBook = bookMapper.toModel(expectedFoundBookDTO);
+        Book expectedFoundBook = BookMapper.toModel(expectedFoundBookDTO);
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findAllByUser(
@@ -162,7 +160,7 @@ public class BookServiceTest {
     @Test
     void whenExistingBookIdIsInformedThenItShouldBeDeleted() {
         BookResponseDTO expectedBookToDeleteDTO = bookResponseDTOBuilder.buildBookResponse();
-        Book expectedBookToDelete = bookMapper.toModel(expectedBookToDeleteDTO);
+        Book expectedBookToDelete = BookMapper.toModel(expectedBookToDeleteDTO);
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findByIdAndUser(eq(expectedBookToDeleteDTO.getId()), any(User.class)))
@@ -189,7 +187,7 @@ public class BookServiceTest {
     void whenExistingBookIdIsInformedThenItShouldBeUpdated() {
         BookRequestDTO expectedBookToUpdateDTO = bookRequestDTOBuilder.buildRequestBookDTO();
         BookResponseDTO expectedUpdatedBookDTO = bookResponseDTOBuilder.buildBookResponse();
-        Book expectedUpdatedBook = bookMapper.toModel(expectedUpdatedBookDTO);
+        Book expectedUpdatedBook = BookMapper.toModel(expectedUpdatedBookDTO);
 
         when(userService.verifyAndGetUserIfExists(authenticatedUser.getUsername())).thenReturn(new User());
         when(bookRepository.findByIdAndUser(eq(expectedBookToUpdateDTO.getId()), any(User.class)))

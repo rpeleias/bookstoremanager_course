@@ -30,9 +30,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-
-    private final UserMapper userMapper = UserMapper.INSTANCE;
-
+    
     @Mock
     private UserRepository userRepository;
 
@@ -52,7 +50,7 @@ public class UserServiceTest {
     @Test
     void whenNewUserIsInformedThenItShouldBeCreated() {
         UserDTO expectedCreatedUserDTO = userDTOBuilder.buildUserDTO();
-        User expectedCreatedUser = userMapper.toModel(expectedCreatedUserDTO);
+        User expectedCreatedUser = UserMapper.toModel(expectedCreatedUserDTO);
         String expectedCreationMessage = "User rodrigopeleias with ID 1 successfully created";
         String expectedUserEmail = expectedCreatedUserDTO.getEmail();
         String expectedUsername = expectedCreatedUserDTO.getUsername();
@@ -69,7 +67,7 @@ public class UserServiceTest {
     @Test
     void whenExistingUserIsInformedThenAnExceptionShouldBeThrown() {
         UserDTO expecteDuplicatedUserDTO = userDTOBuilder.buildUserDTO();
-        User expectedDuplicatedUser = userMapper.toModel(expecteDuplicatedUserDTO);
+        User expectedDuplicatedUser = UserMapper.toModel(expecteDuplicatedUserDTO);
         String expectedUserEmail = expecteDuplicatedUserDTO.getEmail();
         String expectedUsername = expecteDuplicatedUserDTO.getUsername();
 
@@ -82,7 +80,7 @@ public class UserServiceTest {
     @Test
     void whenValidUserIsInformedThenItShouldBeDeleted() {
         UserDTO expectedDeletedUserDTO = userDTOBuilder.buildUserDTO();
-        User expectedDeletedUser = userMapper.toModel(expectedDeletedUserDTO);
+        User expectedDeletedUser = UserMapper.toModel(expectedDeletedUserDTO);
         var expectedDeletedUserId = expectedDeletedUserDTO.getId();
 
         when(userRepository.findById(expectedDeletedUserId)).thenReturn(Optional.of(expectedDeletedUser));
@@ -107,7 +105,7 @@ public class UserServiceTest {
     void whenExistingUserIsInformedThenItShouldBeUpdated() {
         UserDTO expectedUpdatedUserDTO = userDTOBuilder.buildUserDTO();
         expectedUpdatedUserDTO.setUsername("rodrigoupdate");
-        User expectedUpdatedUser = userMapper.toModel(expectedUpdatedUserDTO);
+        User expectedUpdatedUser = UserMapper.toModel(expectedUpdatedUserDTO);
         String expectedUpdatedMessage = "User rodrigoupdate with ID 1 successfully updated";
 
         when(userRepository.findById(expectedUpdatedUserDTO.getId())).thenReturn(Optional.of(expectedUpdatedUser));

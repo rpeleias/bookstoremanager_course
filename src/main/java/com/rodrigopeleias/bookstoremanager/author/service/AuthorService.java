@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuthorService {
-
-    private final static AuthorMapper authorMapper = AuthorMapper.INSTANCE;
-
+    
     private AuthorRepository authorRepository;
 
     @Autowired
@@ -26,21 +24,21 @@ public class AuthorService {
 
     public AuthorDTO create(AuthorDTO authorDTO) {
         verifyIfExists(authorDTO.getName());
-        Author authorToCreate = authorMapper.toModel(authorDTO);
+        Author authorToCreate = AuthorMapper.toModel(authorDTO);
         Author createdAuthor = authorRepository.save(authorToCreate);
-        return authorMapper.toDTO(createdAuthor);
+        return AuthorMapper.toDTO(createdAuthor);
     }
 
     public AuthorDTO findById(Long id) {
         Author foundAuthor = verifyAndGetIfExists(id);
-        return authorMapper.toDTO(foundAuthor);
+        return AuthorMapper.toDTO(foundAuthor);
 
     }
 
     public List<AuthorDTO> findAll() {
         return authorRepository.findAll()
                 .stream()
-                .map(authorMapper::toDTO)
+                .map(AuthorMapper::toDTO)
                 .collect(Collectors.toList());
     }
 

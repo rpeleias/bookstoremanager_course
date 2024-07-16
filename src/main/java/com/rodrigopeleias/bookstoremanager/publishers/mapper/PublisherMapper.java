@@ -2,15 +2,30 @@ package com.rodrigopeleias.bookstoremanager.publishers.mapper;
 
 import com.rodrigopeleias.bookstoremanager.publishers.dto.PublisherDTO;
 import com.rodrigopeleias.bookstoremanager.publishers.entity.Publisher;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
-public interface PublisherMapper {
+public class PublisherMapper {
 
-    PublisherMapper INSTANCE = Mappers.getMapper(PublisherMapper.class);
+    public static Publisher toModel(PublisherDTO publisherDTO) {
+        if (publisherDTO == null) {
+            return null;
+        }
+        Publisher publisher = new Publisher();
+        publisher.setId(publisherDTO.getId());
+        publisher.setName(publisherDTO.getName());
+        publisher.setCode(publisherDTO.getCode());
+        publisher.setFoundationDate(publisherDTO.getFoundationDate());
+        return publisher;
+    }
 
-    Publisher toModel(PublisherDTO publisherDTO);
-
-    PublisherDTO toDTO(Publisher publisher);
+    public static PublisherDTO toDTO(Publisher publisher) {
+        if (publisher == null) {
+            return null;
+        }
+        PublisherDTO publisherDTO = new PublisherDTO();
+        publisherDTO.setId(publisher.getId());
+        publisherDTO.setName(publisher.getName());
+        publisherDTO.setCode(publisher.getCode());
+        publisherDTO.setFoundationDate(publisher.getFoundationDate());
+        return publisherDTO;
+    }
 }

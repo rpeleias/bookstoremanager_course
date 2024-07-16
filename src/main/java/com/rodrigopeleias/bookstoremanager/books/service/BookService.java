@@ -23,11 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class BookService {
-
-    private final BookMapper bookMapper = BookMapper.INSTANCE;
-
+    
     private BookRepository bookRepository;
 
     private UserService userService;
@@ -36,6 +33,14 @@ public class BookService {
 
     private PublisherService publisherService;
 
+    @Autowired
+    public BookService(BookRepository bookRepository, UserService userService, AuthorService authorService, PublisherService publisherService) {
+        this.bookRepository = bookRepository;
+        this.userService = userService;
+        this.authorService = authorService;
+        this.publisherService = publisherService;
+    }
+
     public BookResponseDTO create(AuthenticatedUser authenticatedUser, BookRequestDTO bookRequestDTO) {
         User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
         verifyIfBookIsAlreadyRegistered(foundAuthenticatedUser, bookRequestDTO);
@@ -43,19 +48,19 @@ public class BookService {
         Author foundAuthor = authorService.verifyAndGetIfExists(bookRequestDTO.getAuthorId());
         Publisher foundPublisher = publisherService.verifyAndGetIfExists(bookRequestDTO.getPublisherId());
 
-        Book bookToSave = bookMapper.toModel(bookRequestDTO);
+        Book bookToSave = BookMapper.toModel(bookRequestDTO);
         bookToSave.setUser(foundAuthenticatedUser);
         bookToSave.setAuthor(foundAuthor);
         bookToSave.setPublisher(foundPublisher);
         Book savedBook = bookRepository.save(bookToSave);
 
-        return bookMapper.toDTO(savedBook);
+        return BookMapper.toDTO(savedBook);
     }
 
     public BookResponseDTO findByIdAndUser(AuthenticatedUser authenticatedUser, Long bookId) {
         User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
         return bookRepository.findByIdAndUser(bookId, foundAuthenticatedUser)
-                .map(bookMapper::toDTO)
+                .map(BookMapper::toDTO)
                 .orElseThrow(() -> new BookNotFoundException(bookId));
     }
 
@@ -63,7 +68,7 @@ public class BookService {
         User foundAuthenticatedUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
         return bookRepository.findAllByUser(foundAuthenticatedUser)
                 .stream()
-                .map(bookMapper::toDTO)
+                .map(BookMapper::toDTO)
                 .collect(Collectors.toList());
 
     }
@@ -93,14 +98,14 @@ public class BookService {
         Author foundAuthor = authorService.verifyAndGetIfExists(bookRequestDTO.getAuthorId());
         Publisher foundPublisher = publisherService.verifyAndGetIfExists(bookRequestDTO.getPublisherId());
 
-        Book bookToUpdate = bookMapper.toModel(bookRequestDTO);
+        Book bookToUpdate = BookMapper.toModel(bookRequestDTO);
         bookToUpdate.setId(foundBook.getId());
         bookToUpdate.setUser(foundAuthenticatedUser);
         bookToUpdate.setAuthor(foundAuthor);
         bookToUpdate.setPublisher(foundPublisher);
         bookToUpdate.setCreatedDate(foundBook.getCreatedDate());
         Book updatedBook = bookRepository.save(bookToUpdate);
-        return bookMapper.toDTO(updatedBook);
+        return BookMapper.toDTO(updatedBook);
     }
 
 }

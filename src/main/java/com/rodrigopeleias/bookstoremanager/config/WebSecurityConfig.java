@@ -20,7 +20,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class WebSecurityConfig {
 
     private static final String USERS_API_URL = "/api/v1/users/**";
@@ -47,6 +46,14 @@ public class WebSecurityConfig {
     private UserDetailsService userDetailsService;
     private PasswordEncoder passwordEncoder;
     private JwtRequestFilter jwtRequestFilter;
+
+    @Autowired
+    public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, JwtRequestFilter jwtRequestFilter) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     private static void customize(HeadersConfigurer<HttpSecurity> headers) {
         headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable);

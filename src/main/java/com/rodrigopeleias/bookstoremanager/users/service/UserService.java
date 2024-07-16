@@ -18,9 +18,7 @@ import static com.rodrigopeleias.bookstoremanager.users.utils.MessageDTOUtils.up
 
 @Service
 public class UserService {
-
-    private final static UserMapper userMapper = UserMapper.INSTANCE;
-
+    
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
@@ -33,7 +31,7 @@ public class UserService {
 
     public MessageDTO create(UserDTO userToCreateDTO) {
         verifyIfExists(userToCreateDTO.getEmail(), userToCreateDTO.getUsername());
-        User userToCreate = userMapper.toModel(userToCreateDTO);
+        User userToCreate = UserMapper.toModel(userToCreateDTO);
         userToCreate.setPassword(passwordEncoder.encode(userToCreate.getPassword()));
 
         User createdUser = userRepository.save(userToCreate);
@@ -44,7 +42,7 @@ public class UserService {
         User foundUser = verifyAndGetIfExists(id);
 
         userToUpdateDTO.setId(foundUser.getId());
-        User userToUpdate = userMapper.toModel(userToUpdateDTO);
+        User userToUpdate = UserMapper.toModel(userToUpdateDTO);
         userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
         userToUpdate.setCreatedDate(foundUser.getCreatedDate());
 

@@ -29,9 +29,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthorServiceTest {
-
-    private final AuthorMapper authorMapper = AuthorMapper.INSTANCE;
-
+    
     @Mock
     private AuthorRepository authorRepository;
 
@@ -49,7 +47,7 @@ public class AuthorServiceTest {
     void whenNewAuthorIsInformedThenItShouldBeCreated() {
         //given
         AuthorDTO expectedAuthorToCreateDTO = authorDTOBuilder.buildAuthorDTO();
-        Author expectedCreatedAuthor = authorMapper.toModel(expectedAuthorToCreateDTO);
+        Author expectedCreatedAuthor = AuthorMapper.toModel(expectedAuthorToCreateDTO);
 
         //when
         when(authorRepository.save(expectedCreatedAuthor)).thenReturn(expectedCreatedAuthor);
@@ -64,7 +62,7 @@ public class AuthorServiceTest {
     @Test
     void whenExistingAuthorIsInformedThenAnExceptionShouldBeThrown() {
         AuthorDTO expectedAuthorToCreateDTO = authorDTOBuilder.buildAuthorDTO();
-        Author expectedCreatedAuthor = authorMapper.toModel(expectedAuthorToCreateDTO);
+        Author expectedCreatedAuthor = AuthorMapper.toModel(expectedAuthorToCreateDTO);
 
         when(authorRepository.findByName(expectedAuthorToCreateDTO.getName()))
                 .thenReturn(Optional.of(expectedCreatedAuthor));
@@ -75,7 +73,7 @@ public class AuthorServiceTest {
     @Test
     void whenValidIdIsGivenThenAnAuthorShouldBeReturned() {
         AuthorDTO expectedFoundAuthorDTO = authorDTOBuilder.buildAuthorDTO();
-        Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
+        Author expectedFoundAuthor = AuthorMapper.toModel(expectedFoundAuthorDTO);
 
         when(authorRepository.findById(expectedFoundAuthorDTO.getId())).thenReturn(Optional.of(expectedFoundAuthor));
 
@@ -96,7 +94,7 @@ public class AuthorServiceTest {
     @Test
     void whenListAuthorsIsCalledThenItShouldBeReturned() {
         AuthorDTO expectedFoundAuthorDTO = authorDTOBuilder.buildAuthorDTO();
-        Author expectedFoundAuthor = authorMapper.toModel(expectedFoundAuthorDTO);
+        Author expectedFoundAuthor = AuthorMapper.toModel(expectedFoundAuthorDTO);
 
         when(authorRepository.findAll()).thenReturn(Collections.singletonList(expectedFoundAuthor));
 
@@ -118,7 +116,7 @@ public class AuthorServiceTest {
     @Test
     void whenValidAuthorIdIsGivenThenItShouldBeDeleted() {
         AuthorDTO expectedDeletedAuthorDTO = authorDTOBuilder.buildAuthorDTO();
-        Author expectedDeletedAuthor = authorMapper.toModel(expectedDeletedAuthorDTO);
+        Author expectedDeletedAuthor = AuthorMapper.toModel(expectedDeletedAuthorDTO);
 
         Long expectedDeletedAuthorId = expectedDeletedAuthorDTO.getId();
         doNothing().when(authorRepository).deleteById(expectedDeletedAuthorId);

@@ -31,9 +31,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthenticationServiceTest {
-
-    private final UserMapper userMapper = UserMapper.INSTANCE;
-
+    
     @Mock
     private UserRepository userRepository;
 
@@ -60,7 +58,7 @@ public class AuthenticationServiceTest {
     void whenUsernameAndPasswordIsInformedThenATokenShouldBeGenerated() {
         JwtRequest jwtRequest = jwtRequestBuilder.builJwtRequest();
         UserDTO expectedFoundUserDTO = userDTOBuilder.buildUserDTO();
-        User expectedFoundUser = userMapper.toModel(expectedFoundUserDTO);
+        User expectedFoundUser = UserMapper.toModel(expectedFoundUserDTO);
         String expectedGeneratedToken = "fakeToken";
 
         when(userRepository.findByUsername(jwtRequest.getUsername())).thenReturn(Optional.of(expectedFoundUser));
@@ -74,7 +72,7 @@ public class AuthenticationServiceTest {
     @Test
     void whenUsernameIsInformedThenUserShouldBeReturned() {
         UserDTO expectedFoundUserDTO = userDTOBuilder.buildUserDTO();
-        User expectedFoundUser = userMapper.toModel(expectedFoundUserDTO);
+        User expectedFoundUser = UserMapper.toModel(expectedFoundUserDTO);
         SimpleGrantedAuthority expectedUserRole = new SimpleGrantedAuthority("ROLE_" + expectedFoundUserDTO.getRole().getDescription());
         String expectedUsername = expectedFoundUserDTO.getUsername();
 

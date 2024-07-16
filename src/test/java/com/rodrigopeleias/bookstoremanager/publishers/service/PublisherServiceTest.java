@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.rodrigopeleias.bookstoremanager.publishers.mapper.PublisherMapper.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -30,7 +31,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class PublisherServiceTest {
 
-    private final PublisherMapper publisherMapper = PublisherMapper.INSTANCE;
 
     @Mock
     private PublisherRepository publisherRepository;
@@ -48,7 +48,7 @@ public class PublisherServiceTest {
     @Test
     void whenNewPublisherIsInformedThenItShouldBeCreated() {
         PublisherDTO expectedPublisherToCreateDTO = publisherDTOBuilder.buildPublisherDTO();
-        Publisher expectedPublisherCreated = publisherMapper.toModel(expectedPublisherToCreateDTO);
+        Publisher expectedPublisherCreated = toModel(expectedPublisherToCreateDTO);
 
         when(publisherRepository.findByNameOrCode(expectedPublisherToCreateDTO.getName(), expectedPublisherToCreateDTO.getCode()))
                 .thenReturn(Optional.empty());
@@ -62,7 +62,7 @@ public class PublisherServiceTest {
     @Test
     void whenExistingPublisherIsInformedThenAnExceptionShouldBeThrown() {
         PublisherDTO expectedPublisherToCreateDTO = publisherDTOBuilder.buildPublisherDTO();
-        Publisher expectedPublisherDuplicated = publisherMapper.toModel(expectedPublisherToCreateDTO);
+        Publisher expectedPublisherDuplicated = toModel(expectedPublisherToCreateDTO);
 
         when(publisherRepository.findByNameOrCode(expectedPublisherToCreateDTO.getName(), expectedPublisherToCreateDTO.getCode()))
                 .thenReturn(Optional.of(expectedPublisherDuplicated));
@@ -73,7 +73,7 @@ public class PublisherServiceTest {
     @Test
     void whenValidIdIsGivenThenAPublisherShouldBeReturned() {
         PublisherDTO expectedPublisherFoundDTO = publisherDTOBuilder.buildPublisherDTO();
-        Publisher expectedPublisherFound = publisherMapper.toModel(expectedPublisherFoundDTO);
+        Publisher expectedPublisherFound = toModel(expectedPublisherFoundDTO);
         var expectedPublisherFoundId = expectedPublisherFoundDTO.getId();
 
         when(publisherRepository.findById(expectedPublisherFoundId)).thenReturn(Optional.of(expectedPublisherFound));
@@ -96,7 +96,7 @@ public class PublisherServiceTest {
     @Test
     void whenListPublishersIsCalledThenItShouldBeReturned() {
         PublisherDTO expectedPublisherFoundDTO = publisherDTOBuilder.buildPublisherDTO();
-        Publisher expectedPublisherFound = publisherMapper.toModel(expectedPublisherFoundDTO);
+        Publisher expectedPublisherFound = toModel(expectedPublisherFoundDTO);
 
         when(publisherRepository.findAll()).thenReturn(Collections.singletonList(expectedPublisherFound));
 
@@ -118,7 +118,7 @@ public class PublisherServiceTest {
     @Test
     void whenValidPublisherIdIsGivenThenItShouldBeDeleted() {
         PublisherDTO expectedPublisherDeletedDTO = publisherDTOBuilder.buildPublisherDTO();
-        Publisher expectedPublisherDeleted = publisherMapper.toModel(expectedPublisherDeletedDTO);
+        Publisher expectedPublisherDeleted = toModel(expectedPublisherDeletedDTO);
 
         var expectedDeletedPublisherId = expectedPublisherDeletedDTO.getId();
         doNothing().when(publisherRepository).deleteById(expectedDeletedPublisherId);

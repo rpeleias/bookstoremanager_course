@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.rodrigopeleias.bookstoremanager.publishers.mapper.PublisherMapper.*;
+
 @Service
 public class PublisherService {
-
-    private final static PublisherMapper publisherMapper = PublisherMapper.INSTANCE;
 
     private PublisherRepository publisherRepository;
 
@@ -27,21 +27,21 @@ public class PublisherService {
 
     public PublisherDTO create(PublisherDTO publisherDTO) {
         verifyIfExists(publisherDTO.getName(), publisherDTO.getCode());
-        Publisher publisherToCreate = publisherMapper.toModel(publisherDTO);
+        Publisher publisherToCreate = toModel(publisherDTO);
         Publisher createdPublisher = publisherRepository.save(publisherToCreate);
-        return publisherMapper.toDTO(createdPublisher);
+        return toDTO(createdPublisher);
     }
 
     public PublisherDTO findById(Long id) {
         return publisherRepository.findById(id)
-                .map(publisherMapper::toDTO)
+                .map(PublisherMapper::toDTO)
                 .orElseThrow(() -> new PublisherNotFoundException(id));
     }
 
     public List<PublisherDTO> findAll() {
         return publisherRepository.findAll()
                 .stream()
-                .map(publisherMapper::toDTO)
+                .map(PublisherMapper::toDTO)
                 .collect(Collectors.toList());
     }
 

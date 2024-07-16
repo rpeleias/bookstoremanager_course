@@ -80,6 +80,11 @@
 			<version>0.9.1</version> <!-- Atualize para a versão mais recente do JJWT -->
 		</dependency>
 		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -87,6 +92,10 @@
 				<exclusion>
 					<groupId>org.junit.vintage</groupId>
 					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-jupiter-engine</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -101,7 +110,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.10.1</version> <!-- Atualize para a versão mais recente do Maven Compiler Plugin -->
+				<version>3.13.0</version> <!-- Atualize para a versão mais recente do Maven Compiler Plugin -->
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -145,7 +154,7 @@
 					<plugin>
 						<groupId>org.jacoco</groupId>
 						<artifactId>jacoco-maven-plugin</artifactId>
-						<version>0.8.8</version> <!-- Atualize para a versão mais recente do JaCoCo -->
+						<version>0.8.12</version> <!-- Atualize para a versão mais recente do JaCoCo -->
 						<executions>
 							<execution>
 								<goals>
