@@ -1,6 +1,6 @@
 package com.rodrigopeleias.bookstoremanager.author.exception;
 
-import javax.persistence.EntityExistsException;
+import jakarta.persistence.EntityExistsException;
 
 public class AuthorAlreadyExistsException extends EntityExistsException {
 

@@ -1,6 +1,6 @@
 package com.rodrigopeleias.bookstoremanager.users.exception;
 
-import javax.persistence.EntityExistsException;
+import jakarta.persistence.EntityExistsException;
 
 public class UserAlreadyExistsException extends EntityExistsException {
 

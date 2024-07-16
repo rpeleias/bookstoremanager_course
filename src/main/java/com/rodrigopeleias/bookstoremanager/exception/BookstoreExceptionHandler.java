@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +36,7 @@ public class BookstoreExceptionHandler extends ResponseEntityExceptionHandler {
                 Collections.singletonList(exception.getMessage()));
     }
 
-    @Override
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException exception,
             HttpHeaders headers,
@@ -52,7 +52,7 @@ public class BookstoreExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(HttpStatus.BAD_REQUEST, "Informed argument(s) validation error(s)", errors);
     }
 
-    @Override
+    @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return buildResponseEntity(HttpStatus.BAD_REQUEST,
                 "Malformed JSON body and/or field error",

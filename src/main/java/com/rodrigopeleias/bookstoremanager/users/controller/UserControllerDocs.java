@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Api("system users management")
 public interface UserControllerDocs {

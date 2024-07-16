@@ -1,6 +1,6 @@
 package com.rodrigopeleias.bookstoremanager.books.exception;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 public class BookNotFoundException extends EntityNotFoundException {
 

@@ -1,6 +1,6 @@
 package com.rodrigopeleias.bookstoremanager.author.exception;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 public class AuthorNotFoundException extends EntityNotFoundException {
 
